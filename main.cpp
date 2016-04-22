@@ -7,6 +7,9 @@
  * Created on 19 de Abril de 2016, 11:05
  */
 
+//******************************************************************************
+//                             C++ INCLUDES
+//******************************************************************************
 #include <cstdlib>
 #include <Geometria.h>
 #include <Tubo.h>
@@ -49,7 +52,7 @@ int main() {
     //std:: cout << vetor_Tubos.size();
     std:: cout << Conti (vetor_Tubos[0], vetor_Tubos[1]);
     for (int i=0;i<vetor_Tubos.size();i++){ 
-        if (vetor_Tubos[i].ALT()<= g1.PTR().Y() && 
+        if (vetor_Tubos[i].PTR().Y()<= g1.PTR().Y() && 
             vetor_Tubos[i].DMT()>t6.DMT())
         {
             t6= vetor_Tubos[i];
@@ -73,24 +76,30 @@ int main() {
     
 
 
-const bool Conti (const Tubo _t1, const Tubo _t2){
-    return _t1.ALT() + _t1.ALT() == _t2.ALT() && 
-           _t1.DMT() > _t2.DMT();
+//const bool Conti (const Tubo _t1, const Tubo _t2){
+//    return _t1.PTR().X() + _t1.PTR().X() == _t2.PTR() && 
+//           _t1.DMT() > _t2.DMT();
     
-}
+//}
 int Furo_Tubo (const Geometria _geo, const Tubo _tubo){
     
-    if(_geo.DMT()>= _tubo.DMT()+ (2*_tubo.ESP()) &&
-       _geo.ALT() >= _tubo.ALT() &&
-       _geo.PTR().X() <= _tubo.CTR().X() && _tubo.CTR().X() <= _geo.PTR().X()
-            +_geo.DMT() &&
-       _geo.ALT() <= _tubo.CTR().Y() && _tubo.CTR().Y() <= _geo.ALT()+_geo.ALT())
+    if(_geo.PTR().X() <= _tubo.PTR().X() && 
+            (_tubo.PTR().X()+ _tubo.DMT() + 2*_tubo.ESP()) <= (_geo.PTR().X()
+            +_geo.DMT()) &&
+            
+       (_tubo.PTR().Y()>= _geo.PTR().Y() &&
+                (_tubo.PTR().Y() + _tubo.CMP()) <= (_geo.PTR().Y() + _geo.ALT())))
     {
+        _tubo.PTR().X()= _geo.PTR().X() - _tubo.PTR().X();
+        
         return 1;
+        
     }
+    
+    
     else if ((_geo.DMT()>= _tubo.DMT()+ (2*_tubo.ESP()) &&
-       _geo.ALT()+_geo.ALT() >= _tubo.CTR().Y() + _tubo.ALT() &&
-       _geo.PTR().X() <= _tubo.CTR().X() && _tubo.CTR().X() <= _geo.PTR().X()+
+       _geo.ALT()+_geo.ALT() >= _tubo.PTR().Y() + _tubo.PTR() &&
+       _geo.PTR().X() <= _tubo.PTR().X() && _tubo.PTR().X() <= _geo.PTR().X()+
             _geo.DMT()))
     {
         return 2;
