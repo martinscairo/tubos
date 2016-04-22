@@ -9,7 +9,7 @@
 
 #include <cstdlib>
 #include <Geometria.h>
-#include <Tubos.h>
+#include <Tubo.h>
 #include <fstream>
 #include <sstream>
 #include <vector>
@@ -19,18 +19,18 @@
 //                                typedef
 //******************************************************************************
 
-    typedef std :: vector <Tubos>                Vector;
+    typedef std :: vector <Tubo>                Vector;
     
 //******************************************************************************
 //                      FUNÇÃO CONTINUIDADE DE TUBOS
 //******************************************************************************   
-    int Furo_Tubo (const Geometria, const Tubos);
-    const bool Conti (const Tubos, const Tubos);
+    int Furo_Tubo (const Geometria, const Tubo);
+    const bool Conti (const Tubo, const Tubo);
     
-int main(int argc, char** argv) {
+int main() {
     
     Geometria g1(100,100); //variável que contêm o valor e dimensão do poço
-    Tubos t2, t6;              //variável que vai assumir os valores do arquivo externo
+    Tubo t2, t6;              //variável que vai assumir os valores do arquivo externo
     Vector vetor_Tubos, tubos;    //declaração do vetor tubos, que será compostos por elementos do tipo tubo
     
     std :: ifstream input("tubos.txt"); //PRECISA EXISTIR
@@ -49,8 +49,8 @@ int main(int argc, char** argv) {
     //std:: cout << vetor_Tubos.size();
     std:: cout << Conti (vetor_Tubos[0], vetor_Tubos[1]);
     for (int i=0;i<vetor_Tubos.size();i++){ 
-        if (vetor_Tubos[i].Y()<= g1.POSY() && 
-            vetor_Tubos[i].Diametro()>t6.Diametro())
+        if (vetor_Tubos[i].ALT()<= g1.PTR().Y() && 
+            vetor_Tubos[i].DMT()>t6.DMT())
         {
             t6= vetor_Tubos[i];
         } 
@@ -73,23 +73,25 @@ int main(int argc, char** argv) {
     
 
 
-const bool Conti (const Tubos _t1, const Tubos _t2){
-    return _t1.Y() + _t1.Comprimento() == _t2.Y() && 
-           _t1.Diametro() > _t2.Diametro();
+const bool Conti (const Tubo _t1, const Tubo _t2){
+    return _t1.ALT() + _t1.ALT() == _t2.ALT() && 
+           _t1.DMT() > _t2.DMT();
     
 }
-int Furo_Tubo (const Geometria _geo, const Tubos _tubo){
+int Furo_Tubo (const Geometria _geo, const Tubo _tubo){
     
-    if(_geo.Diam_Poco()>= _tubo.Diametro()+ (2*_tubo.Espessura()) &&
-       _geo.Alt_Poco() >= _tubo.Comprimento() &&
-       _geo.POSX() <= _tubo.X() && _tubo.X() <= _geo.POSX()+_geo.Diam_Poco() &&
-       _geo.POSY() <= _tubo.Y() && _tubo.Y() <= _geo.POSY()+_geo.Alt_Poco())
+    if(_geo.DMT()>= _tubo.DMT()+ (2*_tubo.ESP()) &&
+       _geo.ALT() >= _tubo.ALT() &&
+       _geo.PTR().X() <= _tubo.CTR().X() && _tubo.CTR().X() <= _geo.PTR().X()
+            +_geo.DMT() &&
+       _geo.ALT() <= _tubo.CTR().Y() && _tubo.CTR().Y() <= _geo.ALT()+_geo.ALT())
     {
         return 1;
     }
-    else if ((_geo.Diam_Poco()>= _tubo.Diametro()+ (2*_tubo.Espessura()) &&
-       _geo.POSY()+_geo.Alt_Poco() >= _tubo.Y() + _tubo.Comprimento() &&
-       _geo.POSX() <= _tubo.X() && _tubo.X() <= _geo.POSX()+_geo.Diam_Poco()))
+    else if ((_geo.DMT()>= _tubo.DMT()+ (2*_tubo.ESP()) &&
+       _geo.ALT()+_geo.ALT() >= _tubo.CTR().Y() + _tubo.ALT() &&
+       _geo.PTR().X() <= _tubo.CTR().X() && _tubo.CTR().X() <= _geo.PTR().X()+
+            _geo.DMT()))
     {
         return 2;
     }
