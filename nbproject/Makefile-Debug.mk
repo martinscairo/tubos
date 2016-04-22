@@ -21,7 +21,7 @@ FC=gfortran
 AS=as
 
 # Macros
-CND_PLATFORM=MinGW-Windows
+CND_PLATFORM=Cygwin-Windows
 CND_DLIB_EXT=dll
 CND_CONF=Debug
 CND_DISTDIR=dist
@@ -36,7 +36,8 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/Lib/Geometria.o \
-	${OBJECTDIR}/Lib/Tubos.o \
+	${OBJECTDIR}/Lib/Ponto2D.o \
+	${OBJECTDIR}/Lib/Tubo.o \
 	${OBJECTDIR}/main.o
 
 
@@ -58,21 +59,26 @@ LDLIBSOPTIONS=
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/cppapplication_2.exe
+	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/projeto_inicio.exe
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/cppapplication_2.exe: ${OBJECTFILES}
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/projeto_inicio.exe: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
-	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/cppapplication_2 ${OBJECTFILES} ${LDLIBSOPTIONS}
+	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/projeto_inicio ${OBJECTFILES} ${LDLIBSOPTIONS}
 
 ${OBJECTDIR}/Lib/Geometria.o: Lib/Geometria.cpp 
 	${MKDIR} -p ${OBJECTDIR}/Lib
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -IInclude -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Lib/Geometria.o Lib/Geometria.cpp
 
-${OBJECTDIR}/Lib/Tubos.o: Lib/Tubos.cpp 
+${OBJECTDIR}/Lib/Ponto2D.o: Lib/Ponto2D.cpp 
 	${MKDIR} -p ${OBJECTDIR}/Lib
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -IInclude -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Lib/Tubos.o Lib/Tubos.cpp
+	$(COMPILE.cc) -g -IInclude -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Lib/Ponto2D.o Lib/Ponto2D.cpp
+
+${OBJECTDIR}/Lib/Tubo.o: Lib/Tubo.cpp 
+	${MKDIR} -p ${OBJECTDIR}/Lib
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -IInclude -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Lib/Tubo.o Lib/Tubo.cpp
 
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -85,7 +91,7 @@ ${OBJECTDIR}/main.o: main.cpp
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}
 	${RM} -r ${CND_BUILDDIR}/${CND_CONF}
-	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/cppapplication_2.exe
+	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/projeto_inicio.exe
 
 # Subprojects
 .clean-subprojects:

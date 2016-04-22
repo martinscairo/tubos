@@ -5,13 +5,15 @@
                    displayName="Arquivos de Cabeçalho"
                    projectFiles="true">
       <itemPath>Include/Geometria.h</itemPath>
-      <itemPath>Include/Tubos.h</itemPath>
+      <itemPath>Include/Ponto2D.h</itemPath>
+      <itemPath>Include/Tubo.h</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
                    displayName="Arquivos de Código-Fonte"
                    projectFiles="true">
       <itemPath>Lib/Geometria.cpp</itemPath>
-      <itemPath>Lib/Tubos.cpp</itemPath>
+      <itemPath>Lib/Ponto2D.cpp</itemPath>
+      <itemPath>Lib/Tubo.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
@@ -48,11 +50,15 @@
       </compileType>
       <item path="Include/Geometria.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="Include/Tubos.h" ex="false" tool="3" flavor2="0">
+      <item path="Include/Ponto2D.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Include/Tubo.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Lib/Geometria.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="Lib/Tubos.cpp" ex="false" tool="1" flavor2="0">
+      <item path="Lib/Ponto2D.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Lib/Tubo.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -79,11 +85,15 @@
       </compileType>
       <item path="Include/Geometria.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="Include/Tubos.h" ex="false" tool="3" flavor2="0">
+      <item path="Include/Ponto2D.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Include/Tubo.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Lib/Geometria.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="Lib/Tubos.cpp" ex="false" tool="1" flavor2="0">
+      <item path="Lib/Ponto2D.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Lib/Tubo.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>

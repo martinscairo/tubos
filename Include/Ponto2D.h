@@ -1,75 +1,60 @@
-#ifndef GEOMETRIA_H
-#define GEOMETRIA_H
+#ifndef PONTO2D_H
+#define PONTO2D_H
 
 //==============================================================================
 //                              INCLUDE C++
 //============================================================================== 
-
-#include <Ponto2D.h>
+#include <iostream>
 
 //==============================================================================
 //                                typedef
 //============================================================================== 
-
-typedef double     Real;
-
+typedef double         Real;        
 
 
-class Geometria {
+class Ponto2D {
     
 //==============================================================================
 //                             função friend
 //==============================================================================
     
-    friend std :: ostream& operator << (std :: ostream&, const Geometria&); 
+    friend std :: ostream& operator << (std :: ostream&, const Ponto2D&);
+    friend std :: istream& operator >> (std:: istream&, Ponto2D&);
     
+        
 public:
-    
 //==============================================================================
 //                       CONSTRUTORES E DESTRUTORA
 //============================================================================== 
     
-    Geometria() : altura(0), diametro (0), ptr () {};                            //construtora default
+    Ponto2D(): x(0), y(0) {};                                    //construtor default
+    Ponto2D(const Ponto2D& _orig) : x(_orig.x), y(_orig.y) {};   //cópia
+    Ponto2D (const Real &_x, const Real &_y): x(_x), y(_y) {};   //específica
+    virtual ~Ponto2D() {};                                       //destrutor
     
-    Geometria (const Real _alt, const Real _diam) : altura (_alt), 
-            diametro (_diam), ptr () {};
-    
-    Geometria(const Geometria &_orig) : altura(_orig.altura), 
-            diametro (_orig.diametro), ptr (_orig.ptr) {};                       //construtora de cópia
-            
-    Geometria (const Real _alt, const Real _dia, const Ponto2D _ptr) :           //construtora específica
-            altura (_alt), diametro (_dia), ptr(_ptr) {};
-            
-    Geometria (const Real _alt, const Real _dia, const Real _x, const Real _y) : //construtora específica
-            altura (_alt), diametro (_dia), ptr(_x,_y) {};
-            
-    virtual ~Geometria() {};                                                     //destrutora
     
 //==============================================================================
 //                        SOBRECARGA DE OPERADORES
 //============================================================================== 
     
-    const Geometria& operator= (const Geometria&);
-    
+    const Ponto2D& operator= (const Ponto2D&);
     
 //==============================================================================
 //                              FUNÇÕES INLINE
 //============================================================================== 
     
-    inline  const Real ALT() const {return altura;};   //exibir apenas altura
-    inline  const Real DMT() const {return diametro;}; //exibir apenas diâmetro
-    inline  const Ponto2D PTR() const {return ptr;};      //exibir apenas PTR   
+    inline  const Real X() const {return x;}; //exibir apenas abscissa
+    inline  const Real Y() const {return y;}; //exibir apenas ordenada
     
-    
+
 //==============================================================================
 //                          VARIÁVEIS PRIVADAS
 //============================================================================== 
+ 
 private:
-    
-    Real altura, diametro;
-    Ponto2D ptr;           //localização no espaço
 
+    Real x, y;    //parâmetros que definem ponto 2D
 };
 
-#endif /* GEOMETRIA_H */
+#endif /* PONTO2D_H */
 
