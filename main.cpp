@@ -1,11 +1,10 @@
 
-/* 
- * Objetivo: Desenvolver classe Geometria para armazenar tubos e furos, assim como
- * suas proporções;
- * Author: Leonardo Oliveira Thimoteo
- * Status: Em andamento
- * Created on 19 de Abril de 2016, 11:05
- */
+//Desenvolver classe Geometria para criar tubos e poço, bem como
+//suas propriedades;
+//Autores: Leonardo Thimoteo e Cairo Martins
+//Status: Completo
+//Created on 17 de Abril de 2016, 11:05
+ 
 
 //******************************************************************************
 //                             C++ INCLUDES
@@ -22,52 +21,99 @@
 //                                typedef
 //******************************************************************************
 
-    typedef std :: vector <Tubo>                Vector;
+    typedef std :: vector <Tubo>                Vector; //declara vetor de tubos
     
 //******************************************************************************
-//                      FUNÇÃO CONTINUIDADE DE TUBOS
+//                               protótipos
 //******************************************************************************   
-    int Furo_Tubo (const Geometria, const Tubo);
-    const bool Conti (const Tubo, const Tubo);
+    const bool Furo_Tubo (const Geometria, const Tubo);
     
+//******************************************************************************
+//                            Main function
+//******************************************************************************
 int main() {
     
-    Geometria g1(100,100); //variável que contêm o valor e dimensão do poço
-    Tubo t2, t6;              //variável que vai assumir os valores do arquivo externo
-    Vector vetor_Tubos, tubos;    //declaração do vetor tubos, que será compostos por elementos do tipo tubo
+    Geometria g1(100,100);                   //variável que contêm o valor e dimensão do poço
+    Tubo t2, t6 (1,2,3);                     //variável que vai assumir os valores do arquivo externo
+    Vector vetor_Tubos, tubos;               //declaração do vetor tubos, que será compostos por elementos do tipo tubo
     
     std :: ifstream input("tubos.txt"); //PRECISA EXISTIR
     if (!input){
         std :: cerr << "Arquivo inexistente" << std :: endl;
         abort ();
     }
+
+//Assimilando tubos do arquivo externo
+    
     for (int i=0; !input.eof(); i++){
-       input >> t2;
-        if (Furo_Tubo(g1, t2)==1 || Furo_Tubo(g1, t2) ==2){
-         vetor_Tubos.push_back(t2); // neste ponto estou inicializando o tamanho o meu vetor
+           if (Furo_Tubo(g1, t2)){
+            input >> t2;           
+            vetor_Tubos.push_back(concentrico (g1, t2));  //preenchendo o vetor com os tubos
         } 
     }
     input.close ();
     
-    //std:: cout << vetor_Tubos.size();
-    std:: cout << Conti (vetor_Tubos[0], vetor_Tubos[1]);
-    for (int i=0;i<vetor_Tubos.size();i++){ 
-        if (vetor_Tubos[i].PTR().Y()<= g1.PTR().Y() && 
-            vetor_Tubos[i].DMT()>t6.DMT())
-        {
-            t6= vetor_Tubos[i];
-        } 
+//Imprime vetores do arquivo externo
+    
+    for(int i=0; i<vetor_Tubos.size(); i++){
+        std :: cout << "item: " << vetor_Tubos[i];
     }
-    tubos.push_back(t6);
-    t6;
-    //std:: cout << tubos.size();
+    
    
-    for (int i=0;i<vetor_Tubos.size();i++){ 
-        for (int n=0;n<vetor_Tubos.size();n++){ 
-            
-            
+//Ordenando os tubos por ordem de diâmetro
+    
+   Tubo t1;      //variável auxiliar, tipo tubo
+   
+   for(int i=0; i<vetor_Tubos.size(); i++){
+        for (int m=0; m<vetor_Tubos.size(); m++){
+           if (vetor_Tubos[i].DMT() > vetor_Tubos[m].DMT()){
+                t1 = vetor_Tubos[i];
+                vetor_Tubos[i] = vetor_Tubos[m];
+                vetor_Tubos[m] = t1;
+          }
+       }
     }
+    
+    std:: cout << "\n\n";
+    
+//Imprime vetor ordenado
+    
+     for(int i=0; i<vetor_Tubos.size(); i++){
+        std :: cout << "item: " << vetor_Tubos[i];
     }
+
+    std:: cout << "\n\n";
+    
+//Ordenando tubos no poço
+
+    Real forasolo(-2);   //altura acima do solo
+    
+    tubos.push_back(PrimeiroTubo(vetor_Tubos[0], forasolo));
+    
+    Real alturatotal (tubos[0].CMP() + forasolo);
+    Tubo aux;
+    
+    
+ for(int i=0; i<vetor_Tubos.size(); i++){
+     for (int m=1; m<vetor_Tubos.size(); m++){
+         if (vetor_Tubos[i].DMT()> 
+             (vetor_Tubos[m].DMT() + 2*vetor_Tubos[m].ESP()) && m>i && 
+                 g1.ALT() > alturatotal){
+             
+             tubos.push_back(continuidade(tubos[i], vetor_Tubos[m]));
+             alturatotal+=(continuidade(tubos[i], vetor_Tubos[m])).CMP();
+             m=vetor_Tubos.size();        //critério de parada
+            } 
+
+    }
+}
+    
+for(int i=0; i<tubos.size(); i++){
+    std :: cout << "item: " << tubos[i];
+}
+ 
+std :: cout << "\n Altura total: " << alturatotal << std :: endl;
+   
 
     return 0;
     
@@ -75,33 +121,8 @@ int main() {
 }
     
 
-
-//const bool Conti (const Tubo _t1, const Tubo _t2){
-//    return _t1.PTR().X() + _t1.PTR().X() == _t2.PTR() && 
-//           _t1.DMT() > _t2.DMT();
+const bool Furo_Tubo (const Geometria _geo, const Tubo _tubo){
     
-//}
-int Furo_Tubo (const Geometria _geo, const Tubo _tubo){
-    
-    if(_geo.PTR().X() <= _tubo.PTR().X() && 
-            (_tubo.PTR().X()+ _tubo.DMT() + 2*_tubo.ESP()) <= (_geo.PTR().X()
-            +_geo.DMT()) &&
-            
-       (_tubo.PTR().Y()>= _geo.PTR().Y() &&
-                (_tubo.PTR().Y() + _tubo.CMP()) <= (_geo.PTR().Y() + _geo.ALT())))
-    {
-        _tubo.PTR().X()= _geo.PTR().X() - _tubo.PTR().X();
-        
-        return 1;
-        
-    }
-    
-    
-    else if ((_geo.DMT()>= _tubo.DMT()+ (2*_tubo.ESP()) &&
-       _geo.ALT()+_geo.ALT() >= _tubo.PTR().Y() + _tubo.PTR() &&
-       _geo.PTR().X() <= _tubo.PTR().X() && _tubo.PTR().X() <= _geo.PTR().X()+
-            _geo.DMT()))
-    {
-        return 2;
-    }
+    return _geo.DMT() >= (_tubo.DMT() + 2*_tubo.ESP()) 
+            && _geo.ALT() > _tubo.CMP();
 }
